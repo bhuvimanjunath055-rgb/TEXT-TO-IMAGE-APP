@@ -1,21 +1,39 @@
 import streamlit as st
 import requests
 
-API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
+st.title("🎨 Text to Image Generator")
 
-headers = {"Authorization": "Bearer YOUR_TOKEN"}
+# 👉 Paste your Hugging Face token here
+API_TOKEN = "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"
 
-def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
-    return response.content
+API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2"
+headers = {"Authorization": f"Bearer {API_TOKEN}"}
 
-st.title("Text to Image Generator")
+def generate_image(prompt):
+    response = requests.post(API_URL, headers=headers, json={"inputs": prompt})
+
+    if response.status_code != 200:
+        try:
+            return None, response.json()
+        except:
+            return None, {"error": response.text}
+
+    return response.content, None
 
 prompt = st.text_input("Enter your prompt")
 
 if st.button("Generate Image"):
-    if prompt:
-        image_bytes = query({"inputs": prompt})
-        st.image(image_bytes)
+    if prompt.strip() == "":
+        st.warning("Please enter a prompt")
     else:
-        st.warning("Enter a prompt")
+        with st.spinner("Generating image..."):
+            image, error = generate_image(prompt)
+
+            if error:
+                if "loading" in str(error).lower():
+                    st.warning("Model loading... wait 20 seconds and click again")
+                else:
+                    st.error(error)
+            else:
+                st.image(image)
+                st.success("Done ✅")
