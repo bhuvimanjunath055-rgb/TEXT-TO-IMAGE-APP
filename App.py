@@ -5,10 +5,10 @@ import io
 
 st.title("🎨 Text to Image Generator")
 
-# ✅ Paste your Hugging Face token here
+# 🔑 Paste your sir's Hugging Face token here
 API_TOKEN = "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"
 
-# ✅ Correct working model
+# ✅ Stable working model
 API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
 
 headers = {
@@ -18,12 +18,8 @@ headers = {
 def generate_image(prompt):
     response = requests.post(API_URL, headers=headers, json={"inputs": prompt})
 
-    # If API gives error
     if response.status_code != 200:
-        try:
-            return None, response.json()
-        except:
-            return None, {"error": response.text}
+        return None, response.text
 
     return response.content, None
 
@@ -31,7 +27,7 @@ prompt = st.text_input("Enter your prompt")
 
 if st.button("Generate Image"):
     if prompt:
-        with st.spinner("Generating... please wait"):
+        with st.spinner("Generating image..."):
             image_bytes, error = generate_image(prompt)
 
             if error:
@@ -42,6 +38,6 @@ if st.button("Generate Image"):
                     st.image(image)
                     st.success("Image generated ✅")
                 except:
-                    st.error("Model is loading... wait 20 seconds and try again")
+                    st.warning("Model loading... wait 20–30 seconds and try again")
     else:
-        st.warning("Enter a prompt")
+        st.warning("Please enter a prompt")
