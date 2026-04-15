@@ -5,23 +5,20 @@ import io
 
 st.title("🎨 Text to Image Generator")
 
-# 👉 Paste your Hugging Face token here
-API_TOKEN = "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"
+# ✅ Paste your Hugging Face token here
+API_TOKEN = "hf_xxxxxxxxxxxxxxxxx"
 
-# Correct API URL
-API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
+# ✅ Correct working model
+API_URL = "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"
 
 headers = {
-    "Authorization": f"Bearer {API_TOKEN}",
-    "Content-Type": "application/json"
+    "Authorization": f"Bearer {API_TOKEN}"
 }
 
 def generate_image(prompt):
-    payload = {"inputs": prompt}
-    
-    response = requests.post(API_URL, headers=headers, json=payload)
+    response = requests.post(API_URL, headers=headers, json={"inputs": prompt})
 
-    # If error comes
+    # If API gives error
     if response.status_code != 200:
         try:
             return None, response.json()
@@ -33,10 +30,8 @@ def generate_image(prompt):
 prompt = st.text_input("Enter your prompt")
 
 if st.button("Generate Image"):
-    if prompt.strip() == "":
-        st.warning("Please enter a prompt")
-    else:
-        with st.spinner("Generating image..."):
+    if prompt:
+        with st.spinner("Generating... please wait"):
             image_bytes, error = generate_image(prompt)
 
             if error:
@@ -44,7 +39,9 @@ if st.button("Generate Image"):
             else:
                 try:
                     image = Image.open(io.BytesIO(image_bytes))
-                    st.image(image, caption="Generated Image")
-                    st.success("Done ✅")
+                    st.image(image)
+                    st.success("Image generated ✅")
                 except:
-                    st.error("Image not generated. Try again after few seconds.")
+                    st.error("Model is loading... wait 20 seconds and try again")
+    else:
+        st.warning("Enter a prompt")
