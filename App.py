@@ -6,7 +6,7 @@ st.title("🎨 Text to Image Generator")
 # 👉 Paste your Hugging Face token here
 API_TOKEN = "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"
 
-API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2"
+API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
 headers = {"Authorization": f"Bearer {API_TOKEN}"}
 
 def generate_image(prompt):
