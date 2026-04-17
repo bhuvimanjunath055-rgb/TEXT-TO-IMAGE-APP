@@ -6,7 +6,7 @@ import io
 st.title("Text to Image Generator")
 
 # 🔐 Get API token from Streamlit Secrets
-API_TOKEN = st.secrets["HF_TOKEN"]
+API_TOKEN = "your_huggingface_token"
 
 # Hugging Face Model API
 API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
