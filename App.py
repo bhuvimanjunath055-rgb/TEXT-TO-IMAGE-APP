@@ -9,8 +9,7 @@ st.title("Text to Image Generator")
 API_TOKEN = "your_huggingface_token"
 
 # Hugging Face Model API
-API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
-
+API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2"
 headers = {
     "Authorization": f"Bearer {API_TOKEN}"
 }
