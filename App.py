@@ -4,7 +4,7 @@ from huggingface_hub import InferenceClient
 st.title("Text to Image Generator")
 
 client = InferenceClient(
-    model="runwayml/stable-diffusion-v1-5",
+    model="stabilityai/stable-diffusion-xl-base-1.0",
     token="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"
 )
 
